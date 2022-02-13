@@ -1,6 +1,7 @@
 ﻿using MessagingAPI.Models;
 using MySqlConnector;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -173,9 +174,9 @@ namespace MessagingAPI.DAL
             return signedOut;
         }
 
-        public async Task<Dictionary<int, DateTime>> GetSignedInUsers()
+        public async Task<ConcurrentDictionary<int, DateTime>> GetSignedInUsers()
         {
-            Dictionary<int, DateTime> res = new Dictionary<int, DateTime>();
+            ConcurrentDictionary<int, DateTime> res = new ConcurrentDictionary<int, DateTime>();
             try
             {
                 List<MySqlParameter> sqlParams = new List<MySqlParameter>() {
@@ -186,7 +187,7 @@ namespace MessagingAPI.DAL
                                     .ToTableSet(DBRepo.Procedures.GetSignedInUsers)
                                     .ExecuteAsync();
 
-                res = resSets[DBRepo.Procedures.GetSignedInUsers].ToObjects<User>().ToDictionary(u => u.Id, u => u.LastSignIn);
+                res = new ConcurrentDictionary<int, DateTime>(resSets[DBRepo.Procedures.GetSignedInUsers].ToObjects<User>().ToDictionary(u => u.Id, u => u.LastSignIn));
 
             }
             catch (Exception ex)

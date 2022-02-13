@@ -1,6 +1,7 @@
 ﻿using MessagingAPI.DAL;
 using MessagingAPI.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,18 +10,30 @@ namespace MessagingAPI
 {
     public class SignedInUsers
     {
-        public Dictionary<int, DateTime> Users { get; set; }
+        public ConcurrentDictionary<int, DateTime> Users { get; set; }
+        private static object lockObj = new object();
+        private static SignedInUsers data;
 
         private SignedInUsers()
         {
-            this.Users = new Dictionary<int, DateTime>();
+            this.Users = new ConcurrentDictionary<int, DateTime>();
         }
 
-        private static readonly SignedInUsers data = new SignedInUsers();
-
-        public static SignedInUsers GetSignedInUsers()
+        public static SignedInUsers GetSignedInUsers
         {
-            return data;
+            get
+            {
+                if (data == null)
+                {
+                    lock (lockObj)
+                    {
+                        if (data == null)
+                            data = new SignedInUsers();
+                    }
+                }
+
+                return data;
+            }
         }
 
         public async Task LoadData()

@@ -17,7 +17,7 @@ namespace MessagingAPI.Middlewares
         {
             int currentUserId = context.User.GetUserId();
 
-            if (currentUserId == 0 || !SignedInUsers.GetSignedInUsers().IsSignedIn(currentUserId))
+            if (currentUserId == 0 || !SignedInUsers.GetSignedInUsers.IsSignedIn(currentUserId))
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
                 await context.Response.WriteAsync("User is not signed in");

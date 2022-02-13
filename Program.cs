@@ -10,7 +10,7 @@ namespace MessagingAPI
         {
             var host = CreateHostBuilder(args).Build();
 
-            await SignedInUsers.GetSignedInUsers().LoadData();
+            await SignedInUsers.GetSignedInUsers.LoadData();
 
             host.Run();
         }

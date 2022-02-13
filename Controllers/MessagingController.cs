@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MessagingAPI.DAL;
 using MessagingAPI.Models;
@@ -99,9 +100,10 @@ namespace MessagingAPI.Controllers
 
             if (res)
             {
-                if (SignedInUsers.GetSignedInUsers().Users.ContainsKey(this.currentUserId))
+                if (SignedInUsers.GetSignedInUsers.Users.ContainsKey(this.currentUserId))
                 {
-                    SignedInUsers.GetSignedInUsers().Users.Remove(this.currentUserId);
+                    DateTime lastLogin;
+                    SignedInUsers.GetSignedInUsers.Users.TryRemove(this.currentUserId, out lastLogin);
                 }
 
                 return Ok(res);
