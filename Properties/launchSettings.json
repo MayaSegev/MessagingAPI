@@ -1,0 +1,46 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:44309",
+      "sslPort": 44308
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "MessagingAPI": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "messaging",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:44308;http://localhost:44309"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/messaging",
+      "publishAllPorts": true,
+      "useSSL": true
+    },
+    "Kestrel": {
+      "Endpoints": {
+        "Https": {
+          "Url": "https://localhost:44308"
+        },
+        "Http": {
+          "Url": "http://localhost:44309"
+        }
+      }
+    }
+  }
+}

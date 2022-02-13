@@ -1,0 +1,26 @@
+version: '3.4'
+
+#create a volume for the my sql container.To ensure Data persists after my sql container is stopped
+volumes:
+  datafiles:
+
+services:
+  #DB Service
+  database:
+    image: mysql:8.0.22
+    #Map port 3306 on the mysql container to port 3306 in the host
+    ports:
+      - "3306:3306"
+    security_opt:
+    - seccomp:unconfined
+    #Init script is in mysql-dump folder
+    volumes:
+      - ./mysql-dump:/docker-entrypoint-initdb.d
+    restart: always
+    #Specify some Environment Variables for mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: messagingAdmin
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: messaging_db
+      TZ: Asia/Jerusalem
